@@ -17,15 +17,16 @@
 
 use strict;
 use warnings;
+use utf8;
 
 use Lingua::Translate::Yandex;
 
 use Test::More tests => 2;                      # last test to print
 
-use_ok('Lingua::Translate::Yandex');
 
 my $translator = Lingua::Translate::Yandex->new();
 
-ok("Привет", $translator->translate("Hello", "ru"));
+ok("Привет" eq $translator->translate("Hello", "ru"));
 
+ok("Hi" eq $translator->translate("Привет", "en"));
 

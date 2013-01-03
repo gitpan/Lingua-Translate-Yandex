@@ -3,11 +3,12 @@ package Lingua::Translate::Yandex;
 use strict;
 use warnings;
 use Carp;
-use Encode;
+use Data::Dumper;
 
 use XML::Simple;
 use LWP::UserAgent;
 
+use utf8;
 use 5.010;
 
 =head1 NAME
@@ -20,14 +21,10 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
-
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
 
     use Lingua::Translate::Yandex;
 
@@ -91,6 +88,7 @@ Translate B<$text> in  B<$to> language.
 
 sub translate {
     my ($self, $text, $to) = @_;
+    utf8::decode($text);
     my $language_pairs = $self->getLanguages();
     my $text_lang = $self->detectLanguage($text);
     my $pair = lc($text_lang . "-" . $to);
@@ -107,7 +105,7 @@ sub translate {
         when (501) {croak "The specified translation direction is not supported.";}
     }
 
-    return encode('utf8', $response->{text});
+    return $response->{text};
 }
 
 
