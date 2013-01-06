@@ -26,7 +26,12 @@ use Test::More tests => 2;                      # last test to print
 
 my $translator = Lingua::Translate::Yandex->new();
 
-ok("Привет" eq $translator->translate("Hello", "ru"));
+my $hello_rus = "Привет";
+utf8::encode($hello_rus);
 
-ok("Hi" eq $translator->translate("Привет", "en"));
+my $hello_en = "Hi";
+utf8::encode($hello_en);
+
+ok($hello_rus eq $translator->translate($hello_en, "ru"));
+ok($hello_en eq $translator->translate($hello_rus, "en"));
 

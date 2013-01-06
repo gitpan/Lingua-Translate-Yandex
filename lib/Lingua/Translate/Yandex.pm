@@ -21,7 +21,7 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 =head1 SYNOPSIS
@@ -82,7 +82,7 @@ sub detectLanguage {
 
 =head2 translate($text, $to)
 
-Translate B<$text> in  B<$to> language.
+Translate B<$text> to  B<$to> target language and return translated text in utf8 encoding. B<$text> must be in utf8 encoding.
 
 =cut
 
@@ -105,7 +105,9 @@ sub translate {
         when (501) {croak "The specified translation direction is not supported.";}
     }
 
-    return $response->{text};
+    my $result = $response->{text};
+    utf8::encode($result);
+    return $result;
 }
 
 
